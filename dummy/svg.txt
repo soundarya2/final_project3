@@ -1,0 +1,73 @@
+var guest_list;
+$(document).ready(function(){
+
+    console.log(guest_list_url);
+    //to get the list of guests
+    $.ajax({url: guest_list_url, success: function(result){
+        guest_list=result.guests;
+        createGuest(guest_list);
+        
+        var guest_width=$('.guest').width();
+        console.log(guest_width);
+       
+    }});
+  
+    //to dynamically create the div container for guests
+    function createGuest(guest_list)
+    {
+        for(let i=0;i<guest_list.length;i++)
+        {
+            //guest_creation
+            var guest=document.createElement('div');
+            guest.setAttribute('class','guest');
+            
+            //guest_name
+            var guest_name=document.createElement('p');
+            guest_name.innerHTML=guest_list[i].name;
+            guest_name.setAttribute('class','guest_name');
+
+            //guest_description
+            var guest_description=document.createElement('p');
+            guest_description.innerHTML=guest_list[i].description;
+            guest_description.setAttribute('class','guest_description');
+            
+            //guest_image
+            var guest_image=document.createElement('img');
+            guest_image.setAttribute('src','./assets/guests/'+guest_list[i].image+'.png');
+            guest_image.setAttribute('class','guest_image');
+
+            var svg=document.createElementNS(svg_url, "svg");
+            svg.setAttribute('width',100);
+            svg.setAttribute('height',100);
+           
+            
+
+            
+            var polygon=document.createElementNS(svg_url,'polygon');
+            polygon.setAttribute('points','0,0,100,100,0,100');
+            polygon.setAttribute('class','triangle');
+
+            svg.append(polygon);
+
+            
+
+            var polygon1=document.createElementNS(svg_url,'polygon');
+            polygon1.setAttribute('points','100,0,0,100,100,100');
+            polygon1.setAttribute('class','triangle1');
+
+            svg.append(polygon1);
+
+
+            guest.append(guest_name);
+            guest.append(guest_description);
+            guest.append(svg);
+           // guest.append(guest_image);
+
+           $(".guests-section").append(guest);
+       
+
+        }
+       
+
+    }
+});
